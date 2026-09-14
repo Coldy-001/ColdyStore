@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout — Coldy Store</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .checkout-page {
+            min-height: 70vh;
+            padding: 80px 10%;
+        }
+
+        .checkout-title {
+            margin-bottom: 35px;
+        }
+
+        .checkout-title h1 {
+            font-size: 45px;
+            font-weight: 900;
+        }
+
+        .checkout-title span {
+            color: #ff3131;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 25px;
+        }
+
+        .checkout-box {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .checkout-box h2 {
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: #080808;
+            color: white;
+            border: 1px solid #292929;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #ff3131;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .order-item h3 {
+            font-size: 14px;
+        }
+
+        .order-item p {
+            color: #666;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .order-item strong {
+            color: #ff3131;
+            white-space: nowrap;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .total-row span:last-child {
+            color: #ff3131;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 16px;
+            background: #ff3131;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .place-order-btn:hover {
+            background: #e02020;
+            transform: translateY(-2px);
+        }
+
+        .back-cart {
+            display: inline-block;
+            margin-top: 20px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .back-cart:hover {
+            color: #ff3131;
+        }
+
+        .empty-checkout {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-checkout h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-checkout a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: 1px solid #333;
+            border-radius: 7px;
+        }
+
+        @media (max-width: 850px) {
+            .checkout-page {
+                padding: 60px 6%;
+            }
+
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            COLDY <span>STORE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#offers">Offers</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <a href="cart.html" class="login-btn">
+            🛒 Cart <span id="cartCount">0</span>
+        </a>
+
+    </nav>
+
+
+    <main class="checkout-page">
+
+        <div class="checkout-title">
+
+            <p class="eyebrow">SECURE CHECKOUT</p>
+
+            <h1>Complete Your <span>Order</span></h1>
+
+        </div>
+
+        <div id="checkoutContent"></div>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-logo">
+            COLDY <span>STORE</span>
+        </div>
+
+        <p>Your gaming store.</p>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <p class="copyright">
+            © 2026 Coldy Store. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        let cart = JSON.parse(localStorage.getItem("coldyCart")) || [];
+
+
+        function updateCartCount() {
+
+            const count = cart.reduce(
+                (total, item) => total + item.quantity,
+                0
+            );
+
+            document.getElementById("cartCount").textContent = count;
+        }
+
+
+        function showCheckout() {
+
+            updateCartCount();
+
+            const container =
+                document.getElementById("checkoutContent");
+
+
+            if (cart.length === 0) {
+
+                container.innerHTML = `
+                    <div class="checkout-box empty-checkout">
+
+                        <h2>Your cart is empty 🛒</h2>
+
+                        <p>
+                            Add something to your cart before checking out.
+                        </p>
+
+                        <a href="index.html#games">
+                            Browse Games →
+                        </a>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            let total = 0;
+
+            let orderHTML = "";
+
+
+            cart.forEach(item => {
+
+                const itemTotal =
+                    item.price * item.quantity;
+
+                total += itemTotal;
+
+
+                orderHTML += `
+                    <div class="order-item">
+
+                        <div>
+
+                            <h3>
+                                ${item.name}
+                                × ${item.quantity}
+                            </h3>
+
+                            <p>${item.game}</p>
+
+                        </div>
+
+                        <strong>
+                            Rs. ${itemTotal.toLocaleString()}
+                        </strong>
+
+                    </div>
+                `;
+
+            });
+
+
+            container.innerHTML = `
+
+                <div class="checkout-grid">
+
+
+                    <!-- CUSTOMER DETAILS -->
+
+                    <div class="checkout-box">
+
+                        <h2>Customer Details</h2>
+
+                        <form id="orderForm">
+
+                            <div class="form-group">
+
+                                <label for="name">
+                                    FULL NAME
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="name"
+                                    placeholder="Enter your name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    EMAIL
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="Enter your email"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    PHONE NUMBER
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    placeholder="98XXXXXXXX"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="place-order-btn">
+
+                                PLACE ORDER →
+
+                            </button>
+
+                        </form>
+
+
+                        <a
+                            href="cart.html"
+                            class="back-cart">
+
+                            ← Back to Cart
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- ORDER SUMMARY -->
+
+                    <div class="checkout-box">
+
+                        <h2>Order Summary</h2>
+
+                        ${orderHTML}
+
+
+                        <div class="total-row">
+
+                            <span>Total</span>
+
+                            <span>
+                                Rs. ${total.toLocaleString()}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            `;
+
+
+            document
+                .getElementById("orderForm")
+                .addEventListener(
+                    "submit",
+                    placeOrder
+                );
+
+        }
+
+
+        function placeOrder(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const phone =
+                document.getElementById("phone").value.trim();
+
+
+            if (!name || !email || !phone) {
+
+                alert("Please fill in all details.");
+
+                return;
+
+            }
+
+
+            let total = 0;
+
+            cart.forEach(item => {
+
+                total += item.price * item.quantity;
+
+            });
+
+
+            // Generate a simple order ID
+
+            const orderId =
+                "COLDY-" +
+                Date.now().toString().slice(-8);
+
+
+            const order = {
+
+                orderId: orderId,
+
+                customer: {
+
+                    name: name,
+                    email: email,
+                    phone: phone
+
+                },
+
+                items: cart,
+
+                total: total,
+
+                date: new Date().toISOString()
+
+            };
+
+
+            // Save the order
+
+            localStorage.setItem(
+                "coldyLastOrder",
+                JSON.stringify(order)
+            );
+
+
+            // Empty cart
+
+            localStorage.removeItem("coldyCart");
+
+
+            // Go to confirmation page
+
+            window.location.href =
+                "order-success.html";
+
+        }
+
+
+        showCheckout();
+
+    </script>
+
+</body>
+</html>

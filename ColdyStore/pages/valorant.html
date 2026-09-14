@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Valorant Store | Coldy Store</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #080808;
+            color: white;
+        }
+
+        /* NAVBAR */
+        nav {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: #0d0d0d;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            color: #ff2b2b;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ff4655;
+        }
+
+        .signin {
+            border: 1px solid #ff4655;
+            padding: 10px 18px;
+            border-radius: 8px;
+            color: #ff4655;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background:
+                radial-gradient(circle at center, #3a1117 0%, #080808 65%);
+        }
+
+        .hero p {
+            color: #ff4655;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #ff4655;
+        }
+
+        .sub {
+            color: #999;
+            font-size: 17px;
+        }
+
+        /* PRODUCTS */
+        .products {
+            padding: 50px 7% 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+        }
+
+        .section-title p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .product {
+            background: #111;
+            border: 1px solid #252525;
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product:hover {
+            transform: translateY(-8px);
+            border-color: #ff4655;
+            box-shadow: 0 10px 35px rgba(255, 70, 85, 0.15);
+        }
+
+        .valo-icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #ff4655, #7d1822);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .product h3 {
+            font-size: 23px;
+            margin-bottom: 8px;
+        }
+
+        .product p {
+            color: #888;
+            margin-bottom: 18px;
+        }
+
+        .price {
+            font-size: 27px;
+            font-weight: 900;
+            color: #ff4655;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn {
+            display: block;
+            background: #ff4655;
+            color: white;
+            text-decoration: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-weight: 900;
+            transition: 0.2s;
+        }
+
+        .buy-btn:hover {
+            background: #ff6875;
+            transform: scale(1.03);
+        }
+
+        .popular {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff2b2b;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* INFO */
+        .info {
+            padding: 60px 7%;
+            background: #0d0d0d;
+            text-align: center;
+        }
+
+        .info h2 {
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .info-grid {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .info-box {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .info-box .icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .info-box h3 {
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #222;
+        }
+
+        footer span {
+            color: #ff2b2b;
+        }
+
+        /* MOBILE */
+        @media (max-width: 800px) {
+            .product-grid,
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">COLDY<span> STORE</span></div>
+
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html">Games</a></li>
+            <li><a href="../index.html">Offers</a></li>
+            <li><a href="../index.html">FAQ</a></li>
+        </ul>
+
+        <a href="#" class="signin">SIGN IN</a>
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero">
+        <p>VALORANT DIGITAL STORE</p>
+
+        <h1>BUY <span>VALORANT POINTS</span></h1>
+
+        <div class="sub">
+            Get Valorant Points and upgrade your Valorant experience.
+        </div>
+    </section>
+
+
+    <!-- PRODUCTS -->
+    <section class="products">
+
+        <div class="section-title">
+            <h2>Valorant Points</h2>
+            <p>Choose your VP package</p>
+        </div>
+
+        <div class="product-grid">
+
+            <div class="product">
+                <div class="valo-icon">VP</div>
+
+                <h3>475 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 750</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+
+            <div class="product">
+
+                <div class="valo-icon">VP</div>
+
+                <h3>1000 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 1,500</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+
+            <div class="product">
+
+                <div class="popular">POPULAR</div>
+
+                <div class="valo-icon">VP</div>
+
+                <h3>2050 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 2,900</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+
+            <div class="product">
+
+                <div class="valo-icon">VP</div>
+
+                <h3>3650 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 4,900</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+
+            <div class="product">
+
+                <div class="valo-icon">VP</div>
+
+                <h3>5350 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 6,900</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+
+            <div class="product">
+
+                <div class="valo-icon">VP</div>
+
+                <h3>11000 VP</h3>
+                <p>Valorant Points</p>
+
+                <div class="price">Rs. 13,500</div>
+
+                <a href="#" class="buy-btn">BUY NOW →</a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- INFO -->
+    <section class="info">
+
+        <h2>How It Works</h2>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <div class="icon">🎯</div>
+                <h3>1. Choose</h3>
+                <p>Select the Valorant Points package you want.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="icon">💳</div>
+                <h3>2. Pay</h3>
+                <p>Complete your payment using an available method.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="icon">⚡</div>
+                <h3>3. Receive</h3>
+                <p>Receive your digital product after payment.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 <span>Coldy Store</span>. All rights reserved.
+    </footer>
+    <script src="../cart.js"></script>
+</body>
+</html>

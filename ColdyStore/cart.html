@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart — Coldy Store</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .cart-page {
+            min-height: 70vh;
+            padding: 80px 10%;
+        }
+
+        .cart-title {
+            margin-bottom: 35px;
+        }
+
+        .cart-title h1 {
+            font-size: 45px;
+            font-weight: 900;
+        }
+
+        .cart-title span {
+            color: #ff3131;
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+
+        .cart-items,
+        .cart-summary {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px 5px;
+            border-bottom: 1px solid #222;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info h3 {
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .item-info p {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .item-price {
+            color: #ff3131;
+            font-weight: 800;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #333;
+            background: #181818;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quantity button:hover {
+            border-color: #ff3131;
+            color: #ff3131;
+        }
+
+        .remove-btn {
+            border: none;
+            background: transparent;
+            color: #777;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            color: #ff3131;
+        }
+
+        .cart-summary {
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .cart-summary h2 {
+            margin-bottom: 25px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .summary-total {
+            border-top: 1px solid #292929;
+            padding-top: 18px;
+            margin-top: 15px;
+            color: white;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            background: #ff3131;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .checkout-btn:hover {
+            background: #e02020;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .empty-cart h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: 1px solid #333;
+            border-radius: 7px;
+            color: white;
+        }
+
+        .shop-btn:hover {
+            border-color: #ff3131;
+            color: #ff3131;
+        }
+
+        @media (max-width: 800px) {
+            .cart-page {
+                padding: 60px 6%;
+            }
+
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            COLDY <span>STORE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#offers">Offers</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <a href="cart.html" class="login-btn">
+            🛒 Cart <span id="cartCount">0</span>
+        </a>
+    </nav>
+
+
+    <main class="cart-page">
+
+        <div class="cart-title">
+            <p class="eyebrow">YOUR SHOPPING CART</p>
+            <h1>Your <span>Cart</span></h1>
+        </div>
+
+        <div id="cartContent"></div>
+
+    </main>
+
+
+    <footer>
+        <div class="footer-logo">
+            COLDY <span>STORE</span>
+        </div>
+
+        <p>Your gaming store.</p>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <p class="copyright">
+            © 2026 Coldy Store. All rights reserved.
+        </p>
+    </footer>
+
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("coldyCart")) || [];
+
+        function saveCart() {
+            localStorage.setItem("coldyCart", JSON.stringify(cart));
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById("cartCount").textContent = count;
+        }
+
+        function renderCart() {
+
+            const container = document.getElementById("cartContent");
+
+            updateCartCount();
+
+            if (cart.length === 0) {
+
+                container.innerHTML = `
+                    <div class="cart-items empty-cart">
+                        <h2>Your cart is empty 🛒</h2>
+                        <p>Looks like you haven't added anything yet.</p>
+
+                        <a href="index.html#games" class="shop-btn">
+                            Browse Games →
+                        </a>
+                    </div>
+                `;
+
+                return;
+            }
+
+            let subtotal = 0;
+
+            let itemsHTML = "";
+
+            cart.forEach((item, index) => {
+
+                const itemTotal = item.price * item.quantity;
+
+                subtotal += itemTotal;
+
+                itemsHTML += `
+                    <div class="cart-item">
+
+                        <div class="item-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.game}</p>
+                        </div>
+
+                        <div class="item-price">
+                            Rs. ${item.price.toLocaleString()}
+                        </div>
+
+                        <div class="quantity">
+                            <button onclick="changeQuantity(${index}, -1)">−</button>
+
+                            <span>${item.quantity}</span>
+
+                            <button onclick="changeQuantity(${index}, 1)">+</button>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Rs. ${itemTotal.toLocaleString()}
+                            </strong>
+                        </div>
+
+                        <button
+                            class="remove-btn"
+                            onclick="removeItem(${index})">
+                            Remove
+                        </button>
+
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="cart-container">
+
+                    <div class="cart-items">
+                        ${itemsHTML}
+                    </div>
+
+                    <div class="cart-summary">
+
+                        <h2>Order Summary</h2>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>Rs. ${subtotal.toLocaleString()}</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Delivery</span>
+                            <span>FREE</span>
+                        </div>
+
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span>Rs. ${subtotal.toLocaleString()}</span>
+                        </div>
+
+                        <a href="checkout.html" class="checkout-btn">
+                            CHECKOUT →
+                        </a>
+
+                    </div>
+
+                </div>
+            `;
+        }
+
+
+        function changeQuantity(index, amount) {
+
+            cart[index].quantity += amount;
+
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+
+            saveCart();
+            renderCart();
+        }
+
+
+        function removeItem(index) {
+
+            cart.splice(index, 1);
+
+            saveCart();
+            renderCart();
+        }
+
+
+        renderCart();
+    </script>
+
+</body>
+</html>

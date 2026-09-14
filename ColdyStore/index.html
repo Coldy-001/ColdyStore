@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Coldy Store | Game Top Ups</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================
+           COMING SOON
+        ========================= */
+
+        .game-status.coming-soon {
+            background: #555 !important;
+            color: #fff !important;
+        }
+
+        .coming-soon-link {
+            color: #666 !important;
+            font-weight: 900;
+            cursor: default;
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           LOGIN / SIGNUP MODAL
+        ========================= */
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .auth-modal.show {
+            display: flex;
+        }
+
+        .auth-box {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            background: #111;
+            border: 1px solid #292929;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.75);
+            animation: authPop 0.2s ease;
+        }
+
+        @keyframes authPop {
+            from {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .auth-close {
+            position: absolute;
+            right: 18px;
+            top: 10px;
+            border: none;
+            background: none;
+            color: #888;
+            font-size: 32px;
+            cursor: pointer;
+        }
+
+        .auth-close:hover {
+            color: white;
+        }
+
+        .auth-logo {
+            font-size: 23px;
+            font-weight: 900;
+            margin-bottom: 25px;
+        }
+
+        .auth-logo span {
+            color: #ff3131;
+        }
+
+        .auth-box h2 {
+            font-size: 30px;
+            margin: 0 0 8px;
+        }
+
+        .auth-subtitle {
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        .auth-box label {
+            display: block;
+            margin: 15px 0 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .auth-box input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #181818;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .auth-box input:focus {
+            border-color: #ff3131;
+        }
+
+        .auth-submit {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #ff3131;
+            color: white;
+            font-weight: 900;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .auth-submit:hover {
+            opacity: 0.85;
+        }
+
+        .auth-message {
+            text-align: center;
+            min-height: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            color: #777;
+            margin-top: 22px;
+        }
+
+        .auth-switch button {
+            border: none;
+            background: none;
+            color: #ff3131;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: inherit;
+        }
+
+        .auth-switch button:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           LOGGED IN NAV BUTTON
+        ========================= */
+
+        .user-btn {
+            display: none;
+            border: 1px solid #333;
+            background: #151515;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .user-btn:hover {
+            border-color: #ff3131;
+        }
+
+        .user-menu {
+            display: none;
+            position: absolute;
+            right: 25px;
+            top: 75px;
+            width: 190px;
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            padding: 10px;
+            z-index: 9998;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+        }
+
+        .user-menu.show {
+            display: block;
+        }
+
+        .user-menu-name {
+            padding: 10px;
+            color: #aaa;
+            font-size: 13px;
+            border-bottom: 1px solid #292929;
+            margin-bottom: 6px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 7px;
+            background: #1b1b1b;
+            color: #ff4444;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #222;
+        }
+
+
+        /* Mobile */
+        @media (max-width: 600px) {
+
+            .auth-box {
+                padding: 30px 22px;
+            }
+
+            .user-menu {
+                right: 15px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            COLDY<span>STORE</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#home" class="active">
+                Home
+            </a>
+
+            <a href="#games">
+                Games
+            </a>
+
+            <a href="#offers">
+                Offers
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+        </div>
+
+
+        <!-- SIGN IN -->
+        <button
+            class="login-btn"
+            id="signInButton"
+            onclick="openLogin()"
+        >
+            Sign In
+        </button>
+
+
+        <!-- USER BUTTON -->
+        <button
+            class="user-btn"
+            id="userButton"
+            onclick="toggleUserMenu()"
+        >
+            👤 <span id="navUsername">User</span>
+        </button>
+
+
+        <!-- USER MENU -->
+        <div
+            class="user-menu"
+            id="userMenu"
+        >
+
+            <div
+                class="user-menu-name"
+                id="menuUsername"
+            >
+                Logged in
+            </div>
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Sign Out
+            </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                WELCOME TO COLDY STORE
+            </p>
+
+            <h1>
+                POWER UP<br>
+                <span>YOUR GAME.</span>
+            </h1>
+
+            <p class="hero-text">
+                Fast, reliable and affordable game top-ups
+                made for gamers in Nepal.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#games"
+                    class="primary-btn"
+                >
+                    SHOP NOW →
+                </a>
+
+                <a
+                    href="#offers"
+                    class="secondary-btn"
+                >
+                    VIEW OFFERS
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FEATURED CARD -->
+
+        <div class="featured-card">
+
+            <div class="featured-glow"></div>
+
+            <div class="featured-logo">
+                R
+            </div>
+
+            <p>
+                FEATURED GAME
+            </p>
+
+            <h2>
+                ROBLOX
+            </h2>
+
+            <span>
+                ROBUX • GIFT CARDS • TOP UP
+            </span>
+
+        </div>
+
+
+        <div class="floating-icon icon-one">
+            ✦
+        </div>
+
+        <div class="floating-icon icon-two">
+            +
+        </div>
+
+        <div class="floating-icon icon-three">
+            ◆
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         SEARCH
+    ========================= -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <span>
+                ⌕
+            </span>
+
+            <input
+                type="text"
+                id="gameSearch"
+                placeholder="Search your game..."
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <section class="categories">
+
+        <div class="section-title">
+
+            <div>
+
+                <p class="eyebrow">
+                    BROWSE
+                </p>
+
+                <h2>
+                    Categories
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="category-buttons">
+
+            <button
+                class="category-btn active"
+                data-category="all"
+            >
+                All Games
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="topup"
+            >
+                Top Up
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="gift"
+            >
+                Gift Cards
+            </button>
+
+            <button
+                class="category-btn"
+                data-category="currency"
+            >
+                Game Currency
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         GAMES
+    ========================= -->
+
+    <section
+        class="games"
+        id="games"
+    >
+
+        <div class="section-title">
+
+            <div>
+
+                <p class="eyebrow">
+                    OUR STORE
+                </p>
+
+                <h2>
+                    Popular Games
+                </h2>
+
+            </div>
+
+            <p>
+                Choose your game and start shopping.
+            </p>
+
+        </div>
+
+
+        <div class="game-grid">
+
+
+            <!-- ROBLOX -->
+
+            <div
+                class="game-card"
+                data-name="roblox"
+                data-category="topup currency"
+            >
+
+                <div class="game-image roblox-bg">
+
+                    <div class="game-logo">
+                        R
+                    </div>
+
+                    <span class="game-status">
+                        AVAILABLE
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GAME CURRENCY
+                    </p>
+
+                    <h3>
+                        Roblox
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            Robux
+                        </span>
+
+                        <a href="pages/roblox.html">
+                            SHOP →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- VALORANT -->
+
+            <div
+                class="game-card"
+                data-name="valorant"
+                data-category="topup currency"
+            >
+
+                <div class="game-image valorant-bg">
+
+                    <div class="game-logo">
+                        V
+                    </div>
+
+                    <span class="game-status">
+                        AVAILABLE
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GAME CURRENCY
+                    </p>
+
+                    <h3>
+                        Valorant
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            VP Points
+                        </span>
+
+                        <a href="pages/valorant.html">
+                            SHOP →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MINECRAFT -->
+
+            <div
+                class="game-card"
+                data-name="minecraft"
+                data-category="gift"
+            >
+
+                <div class="game-image minecraft-bg">
+
+                    <div class="game-logo">
+                        M
+                    </div>
+
+                    <span class="game-status">
+                        AVAILABLE
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GIFT CARD
+                    </p>
+
+                    <h3>
+                        Minecraft
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            Gift Cards
+                        </span>
+
+                        <a href="pages/minecraft.html">
+                            SHOP →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FREE FIRE -->
+
+            <div
+                class="game-card"
+                data-name="free fire"
+                data-category="topup currency"
+            >
+
+                <div class="game-image freefire-bg">
+
+                    <div class="game-logo">
+                        FF
+                    </div>
+
+                    <span class="game-status coming-soon">
+                        COMING SOON
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GAME CURRENCY
+                    </p>
+
+                    <h3>
+                        Free Fire
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            Diamonds
+                        </span>
+
+                        <span class="coming-soon-link">
+                            COMING SOON
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PUBG MOBILE -->
+
+            <div
+                class="game-card"
+                data-name="pubg mobile"
+                data-category="topup currency"
+            >
+
+                <div class="game-image pubg-bg">
+
+                    <div class="game-logo">
+                        P
+                    </div>
+
+                    <span class="game-status coming-soon">
+                        COMING SOON
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GAME CURRENCY
+                    </p>
+
+                    <h3>
+                        PUBG Mobile
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            UC
+                        </span>
+
+                        <span class="coming-soon-link">
+                            COMING SOON
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STEAM -->
+
+            <div
+                class="game-card"
+                data-name="steam"
+                data-category="gift"
+            >
+
+                <div class="game-image steam-bg">
+
+                    <div class="game-logo">
+                        S
+                    </div>
+
+                    <span class="game-status">
+                        AVAILABLE
+                    </span>
+
+                </div>
+
+
+                <div class="game-info">
+
+                    <p>
+                        GIFT CARD
+                    </p>
+
+                    <h3>
+                        Steam
+                    </h3>
+
+                    <div class="game-bottom">
+
+                        <span>
+                            Steam Wallet
+                        </span>
+
+                        <a href="pages/steam.html">
+                            SHOP →
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         OFFERS
+    ========================= -->
+
+    <section
+        class="offers"
+        id="offers"
+    >
+
+        <div class="offer-content">
+
+            <p class="eyebrow">
+                LIMITED DEALS
+            </p>
+
+            <h2>
+                LEVEL UP<br>
+                <span>FOR LESS.</span>
+            </h2>
+
+            <p>
+                Check out our latest deals and special
+                offers before they're gone.
+            </p>
+
+            <a
+                href="#games"
+                class="primary-btn"
+            >
+                VIEW DEALS →
+            </a>
+
+        </div>
+
+
+        <div class="offer-symbol">
+            %
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FEATURES
+    ========================= -->
+
+    <section class="features">
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⚡
+            </div>
+
+            <h3>
+                Fast Delivery
+            </h3>
+
+            <p>
+                Get your digital products quickly.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <h3>
+                Secure
+            </h3>
+
+            <p>
+                Safe and reliable shopping experience.
+            </p>
+
+        </div>
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🇳🇵
+            </div>
+
+            <h3>
+                Made for Nepal
+            </h3>
+
+            <p>
+                Simple gaming services for Nepali gamers.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FAQ
+    ========================= -->
+
+    <section
+        class="faq"
+        id="faq"
+    >
+
+        <div class="section-title">
+
+            <div>
+
+                <p class="eyebrow">
+                    NEED HELP?
+                </p>
+
+                <h2>
+                    Frequently Asked Questions
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <details>
+
+            <summary>
+                How fast will I receive my order?
+            </summary>
+
+            <p>
+                Digital products are delivered after your
+                order has been successfully processed.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>
+                What payment methods do you accept?
+            </summary>
+
+            <p>
+                Payment methods will be displayed during checkout.
+            </p>
+
+        </details>
+
+
+        <details>
+
+            <summary>
+                Is Coldy Store safe?
+            </summary>
+
+            <p>
+                We aim to provide a secure and reliable
+                digital shopping experience.
+            </p>
+
+        </details>
+
+    </section>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            COLDY<span>STORE</span>
+        </div>
+
+        <p>
+            Built by gamers. Made for gamers.
+        </p>
+
+        <div class="footer-links">
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="#games">
+                Games
+            </a>
+
+            <a href="#offers">
+                Offers
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+        </div>
+
+        <p class="copyright">
+            © 2026 Coldy Store. All rights reserved.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================
+         LOGIN MODAL
+    ========================= -->
+
+    <div
+        class="auth-modal"
+        id="loginModal"
+    >
+
+        <div class="auth-box">
+
+            <button
+                class="auth-close"
+                onclick="closeAuth()"
+            >
+                ×
+            </button>
+
+
+            <div class="auth-logo">
+                COLDY<span>STORE</span>
+            </div>
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="auth-subtitle">
+                Sign in to your Coldy Store account.
+            </p>
+
+
+            <form id="loginForm">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="loginUsername"
+                    placeholder="Enter your username"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    SIGN IN →
+                </button>
+
+            </form>
+
+
+            <div
+                class="auth-message"
+                id="loginMessage"
+            ></div>
+
+
+            <div class="auth-switch">
+
+                Don't have an account?
+
+                <button onclick="showSignup()">
+                    Create one
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         SIGNUP MODAL
+    ========================= -->
+
+    <div
+        class="auth-modal"
+        id="signupModal"
+    >
+
+        <div class="auth-box">
+
+            <button
+                class="auth-close"
+                onclick="closeAuth()"
+            >
+                ×
+            </button>
+
+
+            <div class="auth-logo">
+                COLDY<span>STORE</span>
+            </div>
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p class="auth-subtitle">
+                Join Coldy Store and start shopping.
+            </p>
+
+
+            <form id="signupForm">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="signupUsername"
+                    placeholder="Choose a username"
+                    minlength="3"
+                    required
+                >
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Create a password"
+                    minlength="6"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    CREATE ACCOUNT →
+                </button>
+
+            </form>
+
+
+            <div
+                class="auth-message"
+                id="signupMessage"
+            ></div>
+
+
+            <div class="auth-switch">
+
+                Already have an account?
+
+                <button onclick="showLogin()">
+                    Sign In
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        const searchInput =
+            document.getElementById("gameSearch");
+
+        const cards =
+            document.querySelectorAll(".game-card");
+
+        const categoryButtons =
+            document.querySelectorAll(".category-btn");
+
+        let selectedCategory = "all";
+
+
+        function filterGames() {
+
+            const search =
+                searchInput.value.toLowerCase().trim();
+
+
+            cards.forEach(card => {
+
+                const name =
+                    card.dataset.name.toLowerCase();
+
+                const category =
+                    card.dataset.category.toLowerCase();
+
+
+                const matchesSearch =
+                    name.includes(search);
+
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    category.includes(selectedCategory);
+
+
+                if (
+                    matchesSearch &&
+                    matchesCategory
+                ) {
+
+                    card.style.display = "block";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            filterGames
+        );
+
+
+        categoryButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                categoryButtons.forEach(btn => {
+
+                    btn.classList.remove("active");
+
+                });
+
+
+                button.classList.add("active");
+
+
+                selectedCategory =
+                    button.dataset.category;
+
+
+                filterGames();
+
+            });
+
+        });
+
+
+
+        /* =========================
+           AUTH MODALS
+        ========================= */
+
+        const loginModal =
+            document.getElementById("loginModal");
+
+        const signupModal =
+            document.getElementById("signupModal");
+
+
+        function openLogin() {
+
+            signupModal.classList.remove("show");
+
+            loginModal.classList.add("show");
+
+            document.getElementById("loginMessage").textContent = "";
+
+        }
+
+
+        function showSignup() {
+
+            loginModal.classList.remove("show");
+
+            signupModal.classList.add("show");
+
+            document.getElementById("signupMessage").textContent = "";
+
+        }
+
+
+        function showLogin() {
+
+            signupModal.classList.remove("show");
+
+            loginModal.classList.add("show");
+
+            document.getElementById("loginMessage").textContent = "";
+
+        }
+
+
+        function closeAuth() {
+
+            loginModal.classList.remove("show");
+
+            signupModal.classList.remove("show");
+
+        }
+
+
+
+        /* Close by clicking outside */
+
+        loginModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === loginModal) {
+
+                    closeAuth();
+
+                }
+
+            }
+        );
+
+
+        signupModal.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === signupModal) {
+
+                    closeAuth();
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           CREATE ACCOUNT
+        ========================= */
+
+        document
+            .getElementById("signupForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const username =
+                    document
+                    .getElementById("signupUsername")
+                    .value
+                    .trim();
+
+                const email =
+                    document
+                    .getElementById("signupEmail")
+                    .value
+                    .trim();
+
+                const password =
+                    document
+                    .getElementById("signupPassword")
+                    .value;
+
+
+                const message =
+                    document.getElementById("signupMessage");
+
+
+                if (username.length < 3) {
+
+                    message.style.color = "#ff4444";
+
+                    message.textContent =
+                        "Username must be at least 3 characters.";
+
+                    return;
+
+                }
+
+
+                if (password.length < 6) {
+
+                    message.style.color = "#ff4444";
+
+                    message.textContent =
+                        "Password must be at least 6 characters.";
+
+                    return;
+
+                }
+
+
+                const existingUser =
+                    JSON.parse(
+                        localStorage.getItem("coldyUser")
+                    );
+
+
+                if (
+                    existingUser &&
+                    existingUser.username.toLowerCase() ===
+                    username.toLowerCase()
+                ) {
+
+                    message.style.color = "#ff4444";
+
+                    message.textContent =
+                        "That username already exists.";
+
+                    return;
+
+                }
+
+
+                const user = {
+
+                    username: username,
+
+                    email: email,
+
+                    password: password
+
+                };
+
+
+                localStorage.setItem(
+                    "coldyUser",
+                    JSON.stringify(user)
+                );
+
+
+                localStorage.setItem(
+                    "coldyLoggedIn",
+                    "true"
+                );
+
+
+                message.style.color = "#55ff88";
+
+                message.textContent =
+                    "Account created successfully!";
+
+
+                setTimeout(() => {
+
+                    closeAuth();
+
+                    updateLoginUI();
+
+                }, 800);
+
+            });
+
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+
+                const username =
+                    document
+                    .getElementById("loginUsername")
+                    .value
+                    .trim();
+
+                const password =
+                    document
+                    .getElementById("loginPassword")
+                    .value;
+
+
+                const message =
+                    document.getElementById("loginMessage");
+
+
+                const savedUser =
+                    JSON.parse(
+                        localStorage.getItem("coldyUser")
+                    );
+
+
+                if (!savedUser) {
+
+                    message.style.color = "#ff4444";
+
+                    message.textContent =
+                        "No account found. Create an account first.";
+
+                    return;
+
+                }
+
+
+                if (
+                    username === savedUser.username &&
+                    password === savedUser.password
+                ) {
+
+                    localStorage.setItem(
+                        "coldyLoggedIn",
+                        "true"
+                    );
+
+
+                    message.style.color = "#55ff88";
+
+                    message.textContent =
+                        "Login successful!";
+
+
+                    setTimeout(() => {
+
+                        closeAuth();
+
+                        updateLoginUI();
+
+                    }, 600);
+
+                } else {
+
+                    message.style.color = "#ff4444";
+
+                    message.textContent =
+                        "Incorrect username or password.";
+
+                }
+
+            });
+
+
+
+        /* =========================
+           UPDATE NAVBAR
+        ========================= */
+
+        function updateLoginUI() {
+
+            const loggedIn =
+                localStorage.getItem("coldyLoggedIn") === "true";
+
+            const savedUser =
+                JSON.parse(
+                    localStorage.getItem("coldyUser")
+                );
+
+
+            const signInButton =
+                document.getElementById("signInButton");
+
+            const userButton =
+                document.getElementById("userButton");
+
+            const navUsername =
+                document.getElementById("navUsername");
+
+            const menuUsername =
+                document.getElementById("menuUsername");
+
+
+            if (
+                loggedIn &&
+                savedUser
+            ) {
+
+                signInButton.style.display = "none";
+
+                userButton.style.display = "block";
+
+                navUsername.textContent =
+                    savedUser.username;
+
+                menuUsername.textContent =
+                    "Signed in as " +
+                    savedUser.username;
+
+            } else {
+
+                signInButton.style.display = "block";
+
+                userButton.style.display = "none";
+
+            }
+
+        }
+
+
+
+        /* =========================
+           USER MENU
+        ========================= */
+
+        function toggleUserMenu() {
+
+            document
+                .getElementById("userMenu")
+                .classList.toggle("show");
+
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        function logout() {
+
+            localStorage.removeItem(
+                "coldyLoggedIn"
+            );
+
+
+            document
+                .getElementById("userMenu")
+                .classList.remove("show");
+
+
+            updateLoginUI();
+
+        }
+
+
+
+        /* =========================
+           CHECK LOGIN ON PAGE LOAD
+        ========================= */
+
+        updateLoginUI();
+
+
+        /* Close user menu when clicking elsewhere */
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                const userButton =
+                    document.getElementById("userButton");
+
+                const userMenu =
+                    document.getElementById("userMenu");
+
+
+                if (
+                    !userButton.contains(event.target) &&
+                    !userMenu.contains(event.target)
+                ) {
+
+                    userMenu.classList.remove("show");
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

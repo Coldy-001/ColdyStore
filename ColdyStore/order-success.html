@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed — Coldy Store</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .success-page {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 6%;
+        }
+
+        .success-box {
+            width: 100%;
+            max-width: 650px;
+            padding: 55px 40px;
+            text-align: center;
+
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 15px;
+
+            box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+
+            animation: successIn 0.6s ease;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+
+            margin: 0 auto 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(255,49,49,0.12);
+            border: 2px solid #ff3131;
+
+            color: #ff3131;
+            font-size: 38px;
+        }
+
+        .success-box h1 {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .success-box h1 span {
+            color: #ff3131;
+        }
+
+        .success-box > p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .order-id-box {
+            margin: 30px 0;
+            padding: 20px;
+
+            background: #080808;
+            border: 1px solid #292929;
+            border-radius: 8px;
+        }
+
+        .order-id-box p {
+            color: #666;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .order-id {
+            color: #ff3131;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .success-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .success-buttons a {
+            padding: 13px 22px;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .home-btn {
+            background: #ff3131;
+            color: white;
+        }
+
+        .games-btn {
+            border: 1px solid #333;
+            color: #ccc;
+        }
+
+        .games-btn:hover {
+            border-color: #ff3131;
+            color: white;
+        }
+
+        .customer-info {
+            margin-top: 25px;
+            color: #666;
+            font-size: 11px;
+        }
+
+        .customer-info strong {
+            color: #aaa;
+        }
+
+        @keyframes successIn {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .success-box {
+                padding: 45px 25px;
+            }
+
+            .success-box h1 {
+                font-size: 32px;
+            }
+
+            .success-buttons {
+                flex-direction: column;
+            }
+
+            .success-buttons a {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            COLDY <span>STORE</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#offers">Offers</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <a href="index.html#games" class="login-btn">
+            SHOP
+        </a>
+
+    </nav>
+
+
+    <main class="success-page">
+
+        <div class="success-box">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <p class="eyebrow">
+                ORDER RECEIVED
+            </p>
+
+            <h1>
+                Order <span>Confirmed!</span>
+            </h1>
+
+            <p>
+                Thanks for shopping with Coldy Store.
+                Your order has been received successfully.
+            </p>
+
+
+            <div class="order-id-box">
+
+                <p>ORDER ID</p>
+
+                <div
+                    class="order-id"
+                    id="orderId">
+                    COLDY-########
+                </div>
+
+            </div>
+
+
+            <div
+                class="customer-info"
+                id="customerInfo">
+            </div>
+
+
+            <div class="success-buttons">
+
+                <a
+                    href="index.html#games"
+                    class="home-btn">
+                    CONTINUE SHOPPING →
+                </a>
+
+                <a
+                    href="index.html"
+                    class="games-btn">
+                    BACK HOME
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-logo">
+            COLDY <span>STORE</span>
+        </div>
+
+        <p>Your gaming store.</p>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#games">Games</a>
+            <a href="index.html#faq">FAQ</a>
+        </div>
+
+        <p class="copyright">
+            © 2026 Coldy Store. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+
+        const order =
+            JSON.parse(
+                localStorage.getItem("coldyLastOrder")
+            );
+
+
+        if (!order) {
+
+            document.getElementById("orderId")
+                .textContent = "NO ORDER FOUND";
+
+        } else {
+
+            document.getElementById("orderId")
+                .textContent = order.orderId;
+
+
+            document.getElementById("customerInfo")
+                .innerHTML = `
+                    Order placed for
+                    <strong>${order.customer.name}</strong>
+                    · ${order.customer.email}
+                `;
+        }
+
+    </script>
+
+</body>
+</html>

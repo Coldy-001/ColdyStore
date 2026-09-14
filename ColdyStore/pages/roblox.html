@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Robux | Coldy Store</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+
+        /* =========================
+           ROBLOX STORE PAGE
+        ========================= */
+
+        .store-hero {
+            padding: 90px 10% 70px;
+
+            position: relative;
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 80% 40%,
+                    rgba(255,49,49,0.2),
+                    transparent 35%
+                ),
+                #0a0a0a;
+
+            border-bottom: 1px solid #222;
+        }
+
+
+        .store-hero::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+
+            pointer-events: none;
+        }
+
+
+        .store-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .store-hero h1 {
+            font-size: clamp(45px, 7vw, 80px);
+
+            line-height: 0.95;
+
+            letter-spacing: -4px;
+
+            font-weight: 900;
+
+            margin-bottom: 25px;
+        }
+
+
+        .store-hero h1 span {
+            color: #ff3131;
+        }
+
+
+        .store-hero-text {
+            color: #888;
+
+            max-width: 600px;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+        }
+
+
+        .breadcrumb {
+            margin-bottom: 25px;
+
+            color: #666;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+        }
+
+
+        .breadcrumb a {
+            color: #aaa;
+
+            transition: 0.3s;
+        }
+
+
+        .breadcrumb a:hover {
+            color: #ff3131;
+        }
+
+
+        /* =========================
+           STORE
+        ========================= */
+
+        .robux-store {
+            padding: 70px 10%;
+        }
+
+
+        .store-heading {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: end;
+
+            margin-bottom: 35px;
+        }
+
+
+        .store-heading h2 {
+            font-size: 35px;
+
+            letter-spacing: -1px;
+        }
+
+
+        .store-heading p {
+            color: #666;
+
+            font-size: 12px;
+        }
+
+
+        .robux-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+
+        /* =========================
+           PRODUCT CARD
+        ========================= */
+
+        .robux-card {
+            position: relative;
+
+            background: #111;
+
+            border: 1px solid #242424;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            transition: 0.3s;
+
+            animation: productIn 0.6s ease both;
+        }
+
+
+        .robux-card:hover {
+            transform: translateY(-8px);
+
+            border-color: #ff3131;
+
+            box-shadow:
+                0 20px 45px rgba(0,0,0,0.45);
+        }
+
+
+        .robux-card.popular {
+            border-color: #ff3131;
+        }
+
+
+        .popular-label {
+            position: absolute;
+
+            top: 15px;
+            right: 15px;
+
+            background: #ff3131;
+
+            color: white;
+
+            padding: 6px 9px;
+
+            border-radius: 5px;
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing: 1px;
+
+            z-index: 2;
+        }
+
+
+        .robux-icon {
+            height: 180px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,49,49,0.25),
+                    transparent 60%
+                ),
+                #151515;
+        }
+
+
+        .robux-symbol {
+            width: 90px;
+            height: 90px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            background: #ff3131;
+
+            clip-path: polygon(
+                50% 0%,
+                95% 25%,
+                95% 75%,
+                50% 100%,
+                5% 75%,
+                5% 25%
+            );
+
+            font-size: 38px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 0 40px rgba(255,49,49,0.35);
+        }
+
+
+        .robux-info {
+            padding: 22px;
+        }
+
+
+        .robux-info .type {
+            color: #666;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .robux-info h3 {
+            font-size: 25px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .robux-info .description {
+            color: #777;
+
+            font-size: 12px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .price-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding-top: 17px;
+
+            border-top: 1px solid #242424;
+        }
+
+
+        .price {
+            font-size: 19px;
+
+            font-weight: 900;
+        }
+
+
+        .buy-btn {
+            border: none;
+
+            background: #ff3131;
+
+            color: white;
+
+            padding: 11px 17px;
+
+            border-radius: 6px;
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .buy-btn:hover {
+            background: #ff4b4b;
+
+            transform: scale(1.05);
+        }
+
+
+        /* =========================
+           INFO BOX
+        ========================= */
+
+        .delivery-box {
+            margin-top: 45px;
+
+            padding: 25px;
+
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+
+            background: #0e0e0e;
+
+            border: 1px solid #222;
+
+            border-radius: 10px;
+        }
+
+
+        .delivery-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 8px;
+
+            background: rgba(255,49,49,0.1);
+
+            color: #ff3131;
+
+            font-size: 20px;
+        }
+
+
+        .delivery-box h3 {
+            font-size: 14px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .delivery-box p {
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           HOW IT WORKS
+        ========================= */
+
+        .how-it-works {
+            padding: 30px 10% 80px;
+        }
+
+
+        .steps {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .step {
+            padding: 25px;
+
+            background: #0e0e0e;
+
+            border: 1px solid #202020;
+
+            border-radius: 10px;
+        }
+
+
+        .step-number {
+            color: #ff3131;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            margin-bottom: 15px;
+        }
+
+
+        .step h3 {
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .step p {
+            color: #666;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        @keyframes productIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .robux-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .robux-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .store-hero,
+            .robux-store,
+            .how-it-works {
+                padding-left: 6%;
+                padding-right: 6%;
+            }
+
+            .store-heading {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            COLDY<span>STORE</span>
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#games" class="active">
+                Games
+            </a>
+
+            <a href="../index.html#offers">
+                Offers
+            </a>
+
+            <a href="../index.html#faq">
+                FAQ
+            </a>
+
+        </div>
+
+
+        <button class="login-btn">
+            Sign In
+        </button>
+
+    </nav>
+
+
+
+    <!-- HERO -->
+
+    <section class="store-hero">
+
+        <div class="store-hero-content">
+
+            <div class="breadcrumb">
+
+                <a href="../index.html">
+                    HOME
+                </a>
+
+                &nbsp; / &nbsp;
+
+                ROBLOX
+
+            </div>
+
+
+            <p class="eyebrow">
+                ROBLOX DIGITAL STORE
+            </p>
+
+
+            <h1>
+                BUY <span>ROBUX.</span>
+            </h1>
+
+
+            <p class="store-hero-text">
+                Choose your Robux package below.
+                Fast digital delivery and simple ordering
+                for gamers in Nepal.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ROBUX PRODUCTS -->
+
+    <section class="robux-store">
+
+        <div class="store-heading">
+
+            <div>
+
+                <p class="eyebrow">
+                    ROBLOX
+                </p>
+
+                <h2>
+                    Choose your package
+                </h2>
+
+            </div>
+
+
+            <p>
+                6 packages available
+            </p>
+
+        </div>
+
+
+
+        <div class="robux-grid">
+
+
+            <!-- 400 ROBUX -->
+
+            <div class="robux-card">
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        400 Robux
+                    </h3>
+
+                    <p class="description">
+                        Digital Robux delivery
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 650
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 800 ROBUX -->
+
+            <div class="robux-card">
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        800 Robux
+                    </h3>
+
+                    <p class="description">
+                        Digital Robux delivery
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 1,250
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 1700 ROBUX -->
+
+            <div class="robux-card popular">
+
+                <span class="popular-label">
+                    POPULAR
+                </span>
+
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        1,700 Robux
+                    </h3>
+
+                    <p class="description">
+                        Best value for regular players
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 2,500
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 4,500 ROBUX -->
+
+            <div class="robux-card">
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        4,500 Robux
+                    </h3>
+
+                    <p class="description">
+                        Large Robux package
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 6,200
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 10,000 ROBUX -->
+
+            <div class="robux-card">
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        10,000 Robux
+                    </h3>
+
+                    <p class="description">
+                        Premium Robux package
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 12,500
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- 22,500 ROBUX -->
+
+            <div class="robux-card">
+
+                <div class="robux-icon">
+
+                    <div class="robux-symbol">
+                        R$
+                    </div>
+
+                </div>
+
+
+                <div class="robux-info">
+
+                    <p class="type">
+                        ROBUX PACKAGE
+                    </p>
+
+                    <h3>
+                        22,500 Robux
+                    </h3>
+
+                    <p class="description">
+                        Ultimate Robux package
+                    </p>
+
+
+                    <div class="price-row">
+
+                        <span class="price">
+                            Rs. 25,000
+                        </span>
+
+                        <button class="buy-btn">
+                            BUY NOW
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- DELIVERY INFO -->
+
+        <div class="delivery-box">
+
+            <div class="delivery-icon">
+                ⚡
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Fast Digital Delivery
+                </h3>
+
+                <p>
+                    After your order is confirmed,
+                    your Robux order will be processed
+                    according to the delivery method.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- HOW IT WORKS -->
+
+    <section class="how-it-works">
+
+        <div class="section-title">
+
+            <div>
+
+                <p class="eyebrow">
+                    SIMPLE PROCESS
+                </p>
+
+                <h2>
+                    How it works
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>
+                    Choose a package
+                </h3>
+
+                <p>
+                    Select the Robux amount
+                    you want to purchase.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>
+                    Place your order
+                </h3>
+
+                <p>
+                    Enter the required details
+                    and complete your order.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>
+                    Receive your Robux
+                </h3>
+
+                <p>
+                    Your digital order is processed
+                    after payment confirmation.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-logo">
+            COLDY<span>STORE</span>
+        </div>
+
+        <p>
+            Built by gamers. Made for gamers.
+        </p>
+
+
+        <div class="footer-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="../index.html#games">
+                Games
+            </a>
+
+            <a href="../index.html#offers">
+                Offers
+            </a>
+
+            <a href="../index.html#faq">
+                FAQ
+            </a>
+
+        </div>
+
+
+        <p class="copyright">
+            © 2026 Coldy Store. All rights reserved.
+        </p>
+
+    </footer>
+    <script src="../cart.js"></script>
+
+</body>
+
+</html>
